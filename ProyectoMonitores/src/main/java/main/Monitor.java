@@ -41,7 +41,7 @@ public class Monitor {
      */
     synchronized void consultar(int indexHora, String nombre) throws InterruptedException{
         
-        this.imprimir("Alumno " + nombre + " intentando consultar el horario " + (indexHora + 10)  + ":00 ", Color.ORANGE);
+        this.imprimir(nombre + " intentando consultar el horario " + (indexHora + 10)  + ":00 ", new Color(255,128, 0));
         
         if (reservadores > 0 || canceladores > 0){
             wait();
@@ -49,10 +49,11 @@ public class Monitor {
         
         consultores++;
         String consulta = String.valueOf( modeloTabla.getValueAt(indexHora, 1));
-        this.imprimir("Alumno " + nombre + " ha consultado el estado de " + indexHora + ":00 -> " + consulta , Color.ORANGE );
+        Thread.sleep( (long) Math.random()*3000 + 500);
+        this.imprimir(nombre + " ha consultado el estado de " + indexHora + ":00 -> " + consulta , new Color(255,178, 102) );
         consultores--;
         
-        this.imprimir("Alumno " + nombre + " saliendo de consultar", Color.ORANGE);
+        this.imprimir(nombre + " saliendo de consultar", new Color(255,229, 204));
         notifyAll();
     }
     
@@ -64,7 +65,7 @@ public class Monitor {
      */
     synchronized void reservar(int indexHora, String nombre) throws InterruptedException{
         
-        this.imprimir("Alumno " + nombre + " intentando reservar el horario " + (indexHora + 10) + ":00 ", Color.GREEN );
+        this.imprimir(nombre + " intentando reservar el horario " + (indexHora + 10) + ":00 ", new Color(0, 204, 0) );
 
         if (reservadores > 0 || canceladores > 0 || consultores > 0){
             wait();
@@ -72,19 +73,19 @@ public class Monitor {
         
         reservadores++;
         String consulta = String.valueOf( modeloTabla.getValueAt(indexHora, 1));
-        
+        Thread.sleep( (long) Math.random()*3000 + 500);
         if (consulta.equals("Libre")) {
             modeloTabla.setValueAt("Reservado", indexHora , 1);
             modeloTabla.setValueAt(nombre, indexHora , 2);
             tabla.setModel(modeloTabla);
-            this.imprimir("Alumno " + nombre + " ha reservado " + (indexHora + 10) + ":00", Color.GREEN  );
+            this.imprimir(nombre + " ha reservado " + (indexHora + 10) + ":00", new Color(51, 255, 51)  );
             
         } else {
-            this.imprimir("Error: no se pudo reservar "+ (indexHora + 10) + ":00", Color.GREEN );
+            this.imprimir("Error: no se pudo reservar a " + nombre + " la hora " + (indexHora + 10) + ":00", new Color(51, 255, 51) );
         }
         reservadores--;
         
-        this.imprimir("Alumno " + nombre + " saliendo de reservar", Color.GREEN);
+        this.imprimir(nombre + " saliendo de reservar", new Color(204, 255, 204));
         notifyAll();  
     }
      
@@ -95,8 +96,8 @@ public class Monitor {
      */
     synchronized void cancelar(String nombre) throws InterruptedException{
         
-        this.imprimir("Alumno " + nombre + " intentando cancelar el horario sus horarios", Color.YELLOW );
-            
+        this.imprimir(nombre + " intentando cancelar el horario sus horarios", new Color(102, 178, 255) );
+        Thread.sleep( (long) Math.random()*3000 + 500);    
         if (reservadores > 0 || canceladores > 0 || consultores > 0){
             
             wait();
@@ -114,15 +115,15 @@ public class Monitor {
             }
         }
         
-        canceladores--;
-        
         if (contador == 0) {
-            this.imprimir("Error: No existe horarios asignados al Alumno " + nombre, Color.YELLOW );
+            this.imprimir("Error: No existe horarios asignados al Alumno " + nombre, new Color(153,255, 255) );
 
         } else {
-            this.imprimir("Alumno " + nombre + " ha cancelado sus reservas", Color.YELLOW);
+            this.imprimir(nombre + " ha cancelado sus reservas", new Color(153,255, 255));
         }
-
+        canceladores--;
+        
+        this.imprimir(nombre + " saliendo de cancelar", new Color(200,255, 255) );
         notifyAll();  
     }
     
