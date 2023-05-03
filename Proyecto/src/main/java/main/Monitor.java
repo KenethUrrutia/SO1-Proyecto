@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableModel;
 
 
 /**
- *Clase Alumno que controlara los interbloqueos y acciones de hilos
+ *Clase Monitor que controlara los interbloqueos y acciones de hilos
  * @author keneth
  */
 public class Monitor {
@@ -88,7 +88,7 @@ public class Monitor {
      * @throws InterruptedException 
      */
     public void cancelar(String nombre) throws InterruptedException{
-        this.imprimir("Alumno " + nombre + " intentando cancelar el horario sus horarios", Color.RED );
+        this.imprimir("Alumno " + nombre + " intentando cancelar el horario sus horarios", Color.YELLOW );
             
         canceladores++;
         Thread.sleep( (long) Math.random()*1000 + 1000);
@@ -105,9 +105,9 @@ public class Monitor {
         canceladores--;
         
         if (contador == 0) {
-            this.imprimir("Error: No existe horarios asignados al Alumno " + nombre, Color.RED );
+            this.imprimir("Error: No existe horarios asignados al Alumno " + nombre, Color.YELLOW );
         } else {
-            this.imprimir("Alumno " + nombre + " ha cancelado sus reservas", Color.RED);
+            this.imprimir("Alumno " + nombre + " ha cancelado sus reservas", Color.YELLOW);
         }
  
     }

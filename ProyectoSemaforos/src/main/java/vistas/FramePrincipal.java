@@ -1,17 +1,12 @@
 package vistas;
 
-import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 import main.Alumno;
-import main.Alumno;
-import main.Monitor;
 import main.Monitor;
 
 /**
- *
+ *Clase para la vista principal del proyecto
  * @author keneth
  */
 public class FramePrincipal extends javax.swing.JFrame {
@@ -20,9 +15,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     public DefaultListModel modeloLista;
     
     Monitor m;
-    Color[] colores = new Color[25];
     Alumno[] alumnos = new Alumno[25];
-    
     String[] nombres = { "Juan", "María", "Pedro", "Lucía", "Ricardo",
                          "Valeria", "David", "Gabriela", "Diego", "Fernanda", 
                          "Jorge", "Ana", "Carlos", "Mónica", "Luis", 
@@ -35,12 +28,9 @@ public class FramePrincipal extends javax.swing.JFrame {
      */
     public FramePrincipal() {
         initComponents();
-
         crearTabla();
         crearLista();
         this.m = new Monitor(modeloTabla, modeloLista, tabla, listaTerminal);
-
-
     }
 
     
@@ -64,23 +54,12 @@ public class FramePrincipal extends javax.swing.JFrame {
         modeloTabla.addRow(new Object[]{"20:00", "Libre", ""});
         modeloTabla.addRow(new Object[]{"21:00", "Libre", ""});
         
-        
         this.tabla.setModel(modeloTabla);
     }
     
     public void crearLista(){
         modeloLista = new DefaultListModel();
         listaTerminal.setModel(modeloLista);
-
-
-
-        for (int i = 0; i < colores.length; i++) {
-            int r = (int) (Math.random() * 256);
-            int g = (int) (Math.random() * 256);
-            int b = (int) (Math.random() * 256);
-            Color color = new Color(r, g, b);
-            colores[i] = color;
-        }
     }
     
     
@@ -96,8 +75,8 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnInicio = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -106,18 +85,19 @@ public class FramePrincipal extends javax.swing.JFrame {
         listaTerminal = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Proyecto con semaforos");
 
-        jButton1.setText("Inicio");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnInicio.setText("Inicio");
+        btnInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnInicioActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Limpiar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnLimpiarActionPerformed(evt);
             }
         });
 
@@ -127,9 +107,9 @@ public class FramePrincipal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jButton1)
+                .addComponent(btnInicio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(btnLimpiar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -137,8 +117,8 @@ public class FramePrincipal extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnInicio)
+                    .addComponent(btnLimpiar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -238,15 +218,13 @@ public class FramePrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        jButton1.setEnabled(false);
+    private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioActionPerformed
+        btnInicio.setEnabled(false);
         crearLista();
         crearTabla();
         
         for (int i = 0; i < 25; i++) {
-            alumnos[i] = new Alumno(m, nombres[i], colores[i]);
-            
+            alumnos[i] = new Alumno(m, nombres[i]);
         }
         
         for (Alumno alumno : alumnos) {
@@ -257,22 +235,22 @@ public class FramePrincipal extends javax.swing.JFrame {
             try {
                 alumno.join();
             } catch (InterruptedException ex) {
-                Logger.getLogger(FramePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println(ex.toString());
             }
         }
-        jButton1.setEnabled(true);
+        btnInicio.setEnabled(true);
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnInicioActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         crearLista();
         crearTabla();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnInicio;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
