@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package main;
 
 import vistas.FramePrincipal;
 
 /**
- *
+ *Clase principal que levanta la vista
  * @author keneth
  */
 public class Proyecto {
